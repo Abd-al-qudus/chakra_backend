@@ -4,29 +4,28 @@ const bcrypt = require('bcrypt');
 const user = mongoose.model(
     'User',
     mongoose.Schema({
-        fullName: {
+        username: {
             type: String, required: true, lowercase: true
         },
         email: {
             type: String, required: true, unique: true, lowercase: true
         },
         password: {
-            type: String, required: true, lowercase: true
+            type: String, required: true
         },
         lastLogin: {
-            type: String, required: true, lowercase: true
+            type: Date, required: true, default: Date.now
         },
         earning: {
-            type: String, required: true, lowercase: true
+            type: Number, default: 0
         },
         joined: {
             type: Date, default: Date.now
+        },
+        refreshToken: {
+            type: String, required: false
         }
     })
 );
-
-user.methods.validatePassword = function (password) {
-    return bcrypt.compare(password, this.password);
-}
 
 module.exports = user;

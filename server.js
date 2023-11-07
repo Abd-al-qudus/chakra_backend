@@ -4,10 +4,14 @@ const bodyParser = require('body-parser');
 const router = require('./routes/index');
 const database = require('./database');
 const { requestLogger, errorLogger } = require('./middlewares/eventLogger');
+const verifyJWT = require('./middlewares/verifyJWT');
+const cookieParser = require('cookie-parser');
 
 dotenv.config();
 server = express();
 
+// server.use(verifyJWT);
+server.use(cookieParser());
 server.use(requestLogger);
 server.use(router);
 server.use(express.json());
