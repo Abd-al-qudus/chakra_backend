@@ -24,6 +24,9 @@ const user = mongoose.model(
         },
         refreshToken: {
             type: String, required: false
+        },
+        walletAddress: {
+            type: String
         }
     })
 );

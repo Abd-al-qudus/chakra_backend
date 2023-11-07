@@ -1,0 +1,7 @@
+20231107	16:46:40	Error:	Login sessions require session support. Did you forget to use `express-session` middleware?
+20231107	16:46:41	Error:	Login sessions require session support. Did you forget to use `express-session` middleware?
+20231107	16:54:00	TokenError:	Bad Request
+20231107	16:54:35	Error:	Failed to serialize user into session
+20231107	16:56:57	TokenError:	Bad Request
+20231107	16:57:27	Error:	Failed to serialize user into session
+20231107	17:20:35	TokenError:	Bad Request
