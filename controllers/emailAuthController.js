@@ -1,6 +1,6 @@
 const User = require('../models/user.model');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
+const generateJWT = require('../utils/generateJWT');
 const argon2 = require('argon2');
 const dotenv = require('dotenv');
 
@@ -11,6 +11,7 @@ const login = async (req, res) => {
     // if (!errors.isEmpty()){
     //     return res.status(400).json({ errors: errors.array() });
     // }
+    console.log('body -- ', req.body);
     console.log('query-- ', req.query);
     const { email, password } = req.query;
     if (!email || !password) {
@@ -20,20 +21,16 @@ const login = async (req, res) => {
         return res.status(400).json({ error: 'invalid username/password' });
     }
     try {
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ "local.email": email });
         if (!user) {
             return res.status(404).json({ error: 'user does not exist' });
         }
-        const validPwd = await argon2.verify(user.password, password);
+        const validPwd = await argon2.verify(user.local.password, password);
         if (!validPwd) {
             return res.status(401).json({ error: 'invalid password' });
         }
-        accessToken = jwt.sign({ email: user.email, _id: user._id},
-            process.env.ACCESS_TOKEN,
-            { expiresIn: "5m" });
-        refreshToken = jwt.sign({ email: user.email, _id: user._id},
-            process.env.REFRESH_TOKEN,
-            { expiresIn: "1d" });
+        accessToken = generateJWT({ email: user.email, id: user._id, duration: "5m"});
+        refreshToken = generateJWT({ email: user.email, id: user._id, duration: "1d" });
         user.lastLogin = new Date();
         user.refreshToken = refreshToken;
         await user.save();
@@ -70,7 +67,6 @@ const register = async (req, res) => {
     // if (!errors.isEmpty()) {
     //     return res.status(400).json({ errors: errors.array() });
     // }
-    console.log('query-- ', req.query);
     const { username, email, password } = req.query;
     if (!email || !password || !username) {
         return res.status(400).json({ error: 'missing username/password/email' });
@@ -85,10 +81,13 @@ const register = async (req, res) => {
         }
         const password_hash = await argon2.hash(password);
         const newUser = new User({
-            username: username,
-            email: email,
-            password: password_hash,
-            lastLogin: new Date()
+            method: 'local',
+            local: {
+                username: username,
+                email: email,
+                password: password_hash,
+                lastLogin: new Date()
+            }
         });
         await newUser.save();
         console.log(newUser);

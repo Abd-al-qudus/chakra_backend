@@ -2,7 +2,8 @@ const express = require('express');
 const verifyJWT = require('../middlewares/verifyJWT');
 const { login, logout, register } = require('../controllers/emailAuthController');
 const refreshTokenController = require('../controllers/refreshTokenController');
-const passport = require('passport');
+const passport = require('../config/googleAuthConfig');
+
 
 const router = express.Router()
 
@@ -14,13 +15,18 @@ router.get('/auth/logout', logout);
 router.get('/auth/refresh', refreshTokenController);
 
 //google auth routes
-router.get('/auth/google', passport.authenticate('google'), (req, res) => {
+router.get('/auth/google', passport.authenticate('google', {
+    accessType: 'offline',
+    approvalPrompt: 'force',
+}), (req, res) => {
+    console.log('auth--', req.user);
     res.sendStatus(200);
 });
 router.get('/auth/google/redirect', passport.authenticate('google', {
     successRedirect: '/',
     failureRedirect: '/auth/google/failure'
 }), (req, res) => {
+    console.log('redirect--', req.user);
     res.sendStatus(200);
 });
 router.get('/auth/google/failure', (req, res) => {
@@ -30,7 +36,7 @@ router.get('/auth/google/failure', (req, res) => {
 //user routes
 router.get('/', verifyJWT, (req, res) => {
     console.log(req.user);
-    return res.status(200).json({ message: 'hello world' });
+    return res.status(200).json({ token: req.token });
 });
 
 

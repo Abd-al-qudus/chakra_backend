@@ -12,7 +12,7 @@ const generateJWT = (user) => {
     return jwt.sign(
         payload,
         process.env.ACCESS_TOKEN,
-        { expiresIn: "5m"}
+        { expiresIn: user.duration }
     );
 }
 

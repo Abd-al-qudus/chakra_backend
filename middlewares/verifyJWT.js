@@ -15,7 +15,7 @@ const verifyJWT = (req, res, next) => {
         process.env.ACCESS_TOKEN,
         (err, decoded) => {
             if (err) return res.sendStatus(403);
-            req.user = { email: decoded.email, _id: decoded._id };
+            req.user = { email: decoded.email, id: decoded._id };
             next();
         }
     );

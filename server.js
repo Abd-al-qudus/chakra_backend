@@ -9,8 +9,6 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const passport = require('passport');
 
-require('./config/googleAuthConfig');
-
 
 dotenv.config();
 server = express();
