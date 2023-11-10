@@ -10,3 +10,12 @@
 20231109	10:58:55	ReferenceError:	res is not defined
 20231109	11:00:03	Error:	Unknown authentication strategy "jwt"
 20231109	11:01:09	ReferenceError:	req is not defined
+20231110	10:45:39	TypeError:	Cannot read properties of undefined (reading 'refreshToken')
+20231110	10:47:00	TypeError:	Cannot read properties of undefined (reading 'refreshToken')
+20231110	10:51:49	TypeError:	Cannot read properties of undefined (reading 'refreshToken')
+20231110	10:52:51	TypeError:	Cannot read properties of undefined (reading 'refreshToken')
+20231110	10:53:46	TypeError:	Cannot read properties of undefined (reading 'refreshToken')
+20231110	10:53:58	TypeError:	Cannot read properties of undefined (reading 'refreshToken')
+20231110	10:55:41	TypeError:	Cannot read properties of undefined (reading 'refreshToken')
+20231110	10:56:11	TypeError:	Cannot read properties of undefined (reading 'refreshToken')
+20231110	11:30:44	TypeError:	Cannot read properties of undefined (reading 'accessToken')

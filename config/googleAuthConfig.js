@@ -24,8 +24,8 @@ pport.use(new GoogleStrategy({
             accessToken,
             refreshToken
         };
-        console.log(userData);
-        console.log(profile);
+        // console.log(userData);
+        // console.log(profile);
         try {
             const user = await User.findOne({ "google.email": profile.emails[0].value });
             if (user){
@@ -35,7 +35,8 @@ pport.use(new GoogleStrategy({
                 user.google.refreshToken = refreshToken;
                 await user.save();
                 // res.cookie('jwt', refreshToken, { httpOnly: true, maxAge: 24 * 3600 * 1000 , sameSite: 'None', secured: true });
-                return done(null, user);
+                const data = {...user, refreshToken, accessToken};
+                return done(null, data);
             }
             const newUser = new User({
                 method: 'google',
@@ -51,7 +52,8 @@ pport.use(new GoogleStrategy({
             user.google.refreshToken = refreshToken;
             await user.save();
             // res.cookie('jwt', refreshToken, { httpOnly: true, maxAge: 24 * 3600 * 1000 , sameSite: 'None', secured: true });
-            return done(null, newUser);
+            const data = { ...newUser, refreshToken, accessToken};
+            return done(null, data);
         } catch (error) {
             console.log(error);
             return done(error, userData);
