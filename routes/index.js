@@ -3,6 +3,7 @@ const verifyJWT = require('../middlewares/verifyJWT');
 const { login, logout, register } = require('../controllers/emailAuthController');
 const refreshTokenController = require('../controllers/refreshTokenController');
 const passport = require('../config/googleAuthConfig');
+const leaderBoard = require('../controllers/leaderBoardController');
 
 
 const router = express.Router()
@@ -48,6 +49,7 @@ router.get('/', verifyJWT, (req, res) => {
     // console.log(req.user);
     return res.json({ token: req.session.accessToken });
 });
+router.get('/leaderboard', verifyJWT, leaderBoard);
 
 
 module.exports = router;

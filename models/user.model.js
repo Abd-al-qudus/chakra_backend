@@ -18,21 +18,7 @@ const UserSchema = mongoose.Schema({
         password: {
             type: String,
         },
-        lastLogin: {
-            type: Date, required: true, default: Date.now
-        },
-        earning: {
-            type: Number, default: 0
-        },
-        joined: {
-            type: Date, default: Date.now
-        },
-        refreshToken: {
-            type: String, required: false
-        },
-        walletAddress: {
-            type: String
-        }
+        
     },
     google: {
         username: {
@@ -41,6 +27,8 @@ const UserSchema = mongoose.Schema({
         email: {
             type: String, unique: true, lowercase: true
         },
+    },
+    commonFields: {
         lastLogin: {
             type: Date, required: true, default: Date.now
         },
@@ -52,9 +40,6 @@ const UserSchema = mongoose.Schema({
         },
         refreshToken: {
             type: String, required: false
-        },
-        walletAddress: {
-            type: String
         }
     }
 });
