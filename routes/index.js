@@ -4,6 +4,8 @@ const { login, logout, register } = require('../controllers/emailAuthController'
 const refreshTokenController = require('../controllers/refreshTokenController');
 const passport = require('../config/googleAuthConfig');
 const leaderBoard = require('../controllers/leaderBoardController');
+const currentUserController = require('../controllers/currentUserController');
+const increaseUserEarning = require('../controllers/increaseEarningController');
 
 
 const router = express.Router()
@@ -35,21 +37,27 @@ router.get('/auth/google/failure', (req, res) => {
 });
 
 router.get('/auth/google/redirect/done', (req, res) => {
-    const accessToken = req.user.accessToken;
-    const refreshToken = req.user.refreshToken;
-    res.cookie('jwt', refreshToken, { httpOnly: true, maxAge: 24 * 3600 * 1000 , sameSite: 'None', secured: true });
-    // console.log(req);
-    req.session.accessToken = `jwt ${accessToken}`;
-    res.setHeader('Authorization', `Bearer ${accessToken}`);// Set the Location header for the redirection
-    return res.redirect('/');
+    try {
+        const accessToken = req.user.accessToken;
+        const refreshToken = req.user.refreshToken;
+        res.cookie('jwt', refreshToken, { httpOnly: true, maxAge: 24 * 3600 * 1000 , sameSite: 'None', secured: true });
+        // console.log(req);
+        req.session.accessToken = `jwt ${accessToken}`;
+        res.setHeader('Authorization', `Bearer ${accessToken}`);// Set the Location header for the redirection
+        return res.redirect('/');
+    } catch (error) {
+        return res.sendStatus(400);
+    }
 });
 
 //user routes
 router.get('/', verifyJWT, (req, res) => {
     // console.log(req.user);
-    return res.json({ token: req.session.accessToken });
+    return res.json({ token: req.session.accessToken , email: req.user });
 });
 router.get('/leaderboard', verifyJWT, leaderBoard);
+router.get('/me', verifyJWT, currentUserController);
+router.get('/me/earning', verifyJWT, increaseUserEarning);
 
 
 module.exports = router;

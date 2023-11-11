@@ -13,7 +13,7 @@ const login = async (req, res) => {
     // }
     console.log('body -- ', req.body);
     console.log('query-- ', req.query);
-    const { email, password } = req.query;
+    const { email, password } = req.body;
     if (!email || !password) {
         return res.status(400).json({ error: 'missing username/password' });
     }
@@ -47,7 +47,7 @@ const logout = async (req, res) => {
     if (!cookie?.jwt) return res.sendStatus(204);
     const refreshToken = cookie.jwt;
     try {
-        const user = await User.findOne({ refreshToken });
+        const user = await User.findOne({ 'commonFields.refreshToken': refreshToken });
         if (!user) {
             res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true });
             res.sendStatus(204);
@@ -67,7 +67,7 @@ const register = async (req, res) => {
     // if (!errors.isEmpty()) {
     //     return res.status(400).json({ errors: errors.array() });
     // }
-    const { username, email, password } = req.query;
+    const { username, email, password } = req.body;
     if (!email || !password || !username) {
         return res.status(400).json({ error: 'missing username/password/email' });
     }
@@ -75,7 +75,7 @@ const register = async (req, res) => {
         return res.status(400).json({ error: 'invalid username/password/email' });
     }
     try {
-        const duplicate = await User.findOne({ email });
+        const duplicate = await User.findOne({ 'local.email': email });
         if (duplicate) {
             return res.status(409).json({ error: 'account already exist' });
         }

@@ -19,3 +19,4 @@
 20231110	10:55:41	TypeError:	Cannot read properties of undefined (reading 'refreshToken')
 20231110	10:56:11	TypeError:	Cannot read properties of undefined (reading 'refreshToken')
 20231110	11:30:44	TypeError:	Cannot read properties of undefined (reading 'accessToken')
+20231111	19:47:53	TypeError:	Cannot read properties of undefined (reading 'accessToken')
