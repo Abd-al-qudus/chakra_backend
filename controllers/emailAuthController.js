@@ -7,10 +7,6 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const login = async (req, res) => {
-    // const errors = validationRequest(req);
-    // if (!errors.isEmpty()){
-    //     return res.status(400).json({ errors: errors.array() });
-    // }
     console.log('body -- ', req.body);
     console.log('query-- ', req.query);
     const { email, password } = req.body;
@@ -63,10 +59,6 @@ const logout = async (req, res) => {
 }
 
 const register = async (req, res) => {
-    // const errors = validationRequest(req);
-    // if (!errors.isEmpty()) {
-    //     return res.status(400).json({ errors: errors.array() });
-    // }
     const { username, email, password } = req.body;
     if (!email || !password || !username) {
         return res.status(400).json({ error: 'missing username/password/email' });

@@ -53,7 +53,7 @@ router.get('/auth/google/redirect/done', (req, res) => {
 //user routes
 router.get('/', verifyJWT, (req, res) => {
     // console.log(req.user);
-    return res.json({ token: req.session.accessToken , email: req.user });
+    return res.json({ token: req.session.accessToken || req.body.accessToken , email: req.user || req.body.user });
 });
 router.get('/leaderboard', verifyJWT, leaderBoard);
 router.get('/me', verifyJWT, currentUserController);

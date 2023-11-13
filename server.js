@@ -14,7 +14,6 @@ dotenv.config();
 server = express();
 
 
-
 // server.use(verifyJWT);
 server.use(session({
     resave: false,
